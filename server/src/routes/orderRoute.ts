@@ -9,6 +9,10 @@ import IsAuthenticated from "../middlewares/IsAuthenticated";
 
 const orderRoute = express.Router();
 
+orderRoute.get("/", IsAuthenticated, (req, res) => {
+  res.send("Order Route is working");
+});
+
 orderRoute.post("/create-order", IsAuthenticated, createOrder);
 
 // single order

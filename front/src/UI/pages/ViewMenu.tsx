@@ -19,6 +19,9 @@ const ViewMenu = () => {
     GetSingleResturent(params?.id!);
   }, [params.id!]);
 
+  console.log(params.id);
+  console.log("view", singleResturent);
+
   if (loading) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center p-4">

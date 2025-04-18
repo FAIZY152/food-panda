@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,12 +20,13 @@ import UseOrderStore from "@/store/UseOrder";
 
 export default function CartPageUI() {
   const { resturent } = useResturent();
-  const { cart, CartIncrement, CartDecrement, clearCart } = UseCartStore();
+  const { cart, CartIncrement, CartDecrement, clearCart, removeFromCart } =
+    UseCartStore();
   const { createOrder } = UseOrderStore();
   const { user } = UserStore();
 
   const navigate = useNavigate();
-  let totalPrice = () => {
+  const totalPrice = () => {
     try {
       let total = 0;
       cart?.forEach((item) => {
@@ -122,6 +124,7 @@ export default function CartPageUI() {
                     <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                   <Button
+                    onClick={() => removeFromCart(item._id)}
                     className="rounded bg-pink-600 text-white"
                     variant="destructive"
                     size="icon"

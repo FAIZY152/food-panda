@@ -14,8 +14,6 @@ import {
 import IsAuthenticated, { IsAdmin } from "../middlewares/IsAuthenticated";
 import { Request, Response } from "express";
 
-
-
 export const resturentRoute = express.Router();
 
 // Resturents

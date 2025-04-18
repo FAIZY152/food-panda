@@ -1,0 +1,52 @@
+# run server and front container
+name: food-panda
+services:
+  # first write for mongodb
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - food-panda
+
+  backend:
+    build:
+      context: ./server
+      dockerfile: dockerfile
+    env_file:
+      - .server/.env.test
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - food-panda
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: dockerfile
+    env_file:
+      - .server/.env
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    networks:
+      - food-panda
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongodata:
+
+networks:
+  food-panda:
+    driver: bridge

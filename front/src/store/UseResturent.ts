@@ -96,6 +96,8 @@ const useResturent = create<ResturentTypes>()(
             `${API_ENDPOINT}/resturents/${resturentId}`
           );
           if (response.data.success) {
+            console.log("store: ", response.data.resturent);
+
             set({ singleResturent: response.data.resturent });
           } else {
             set({ singleResturent: null });
@@ -111,7 +113,7 @@ const useResturent = create<ResturentTypes>()(
         set((state: any) => ({
           resturent: state.resturent
             ? { ...state.resturent, menu: [...state.resturent.menu, menu] }
-            : { menu: [menu] }, // Initialize if resturent is null
+            : { menu: [menu] }, 
         }));
       },
       updatedMenuResturent: async (updateMenu: any) => {
@@ -131,7 +133,9 @@ const useResturent = create<ResturentTypes>()(
             // Always return a valid object even if state.resturent is falsy
             return state;
           });
-        } catch (error: any) {}
+        } catch {
+          return new Error("Error in update");
+        }
       },
       deleteMenuResturent: async (menuId: string) => {
         set((state: any) => ({

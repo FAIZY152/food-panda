@@ -21,7 +21,6 @@ import { toast } from "sonner";
 const AddMenu = () => {
   const { createMenu, loading, DeleteMenu } = UseMenu();
   const { resturent } = useResturent();
-  toast.error("resturent:", resturent);
   const [open, setOpen] = useState<boolean>(false);
   const [Editopen, setEditOpen] = useState<boolean>(false);
   const [inpt, setInpt] = useState<MenuTypes>({

@@ -7,13 +7,14 @@ import { resturentRoute } from "./routes/ResturentRoutes";
 import orderRoute from "./routes/orderRoute";
 import menuRoute from "./routes/MenuRoute";
 import connectDB from "./utils/DB";
-import path from "path";
-import mime from "mime-types";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 connectDB();
 
 const app = express(); // Create an express application
-const PORT = process.env.PORT || 5200; // Define the port number
+const PORT = process.env.PORT || 5200;
 
 // Middleware for parsing JSON requests
 app.use(bodyParser.json({ limit: "10mb" })); // Parse application/json use(express.json());
@@ -29,17 +30,10 @@ let corsOption = {
 };
 app.use(cors(corsOption));
 
-const DIRNAME = path.resolve();
 // Define a basic route
 app.get("/", (req, res) => {
   res.send("Hello, Express!");
 });
-
-// Test auth middleware
-// app.get("/middleware", IsAuthenticated, (req, res) => {
-//   res.status(200).json({ message: "You are authenticated!", userId: req.id });
-//   console.log(req.id);
-// });
 
 // Routes
 
@@ -48,13 +42,10 @@ app.use("/api/v1/resturent", resturentRoute);
 app.use("/api/v1/menu", menuRoute);
 app.use("/api/v1/order", orderRoute);
 
-const FRONTEND_PATH = path.join(__dirname, "../../front/dist");
-// app.use(express.static(path.join(DIRNAME, "front", "dist")));
-
-// Serve index.html for all unknown routes
-app.get("*", (_, res) => {
-  res.sendFile(path.join(FRONTEND_PATH, "index.html"));
+app.use("/api/status", (req, res) => {
+  res.send("Server is running");
 });
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

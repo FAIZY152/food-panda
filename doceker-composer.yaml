@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - food-panda
+
+  # Backend service
+  backend:
+    build:
+      dockerfile: Dockerfile
+    env_file:
+      - ".server/.env"
+
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - food-panda
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    command: npm run dev
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    env_file:
+      - .front/.env
+    volumes:
+      - ./front:/app
+      - /app/node_modules
+    networks:
+      - food-panda
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongodata:
+
+networks:
+  food-panda:
+    driver: bridge

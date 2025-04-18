@@ -6,7 +6,7 @@ dotenv.config(); // Load environment variables from .env file
 
 const connectDB = async () => {
   try {
-    const dbUri = process.env.MONGO_URl;
+    const dbUri = process.env.TEST_DB;
 
     if (!dbUri) {
       throw new Error("MONGO_URL is not defined in environment variables.");
